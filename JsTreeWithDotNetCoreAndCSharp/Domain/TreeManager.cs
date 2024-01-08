@@ -48,6 +48,7 @@ namespace JsTreeWithDotNetCoreAndCSharp.Domain
                 );
 
             await _treeRepository.InsertAsync(TreeNode);
+            await _treeRepository.SaveAsync();
 
             return TreeNode;
         }
@@ -88,6 +89,7 @@ namespace JsTreeWithDotNetCoreAndCSharp.Domain
             }
 
             await _treeRepository.UpdateAsync(TreeNode);
+            await _treeRepository.SaveAsync();
 
             return TreeNode;
         }
@@ -109,6 +111,9 @@ namespace JsTreeWithDotNetCoreAndCSharp.Domain
             }
 
             TreeNode.ChangeName(newName);
+
+            await _treeRepository.UpdateAsync(TreeNode);
+            await _treeRepository.SaveAsync();
 
             return TreeNode;
         }
@@ -137,6 +142,7 @@ namespace JsTreeWithDotNetCoreAndCSharp.Domain
             TreeNode.ParentId = newParentId;
 
             await _treeRepository.UpdateAsync(TreeNode);
+            await _treeRepository.SaveAsync();
             return TreeNode;
         }
 
@@ -152,6 +158,7 @@ namespace JsTreeWithDotNetCoreAndCSharp.Domain
             }
 
             await _treeRepository.DeleteAsync(id);
+            await _treeRepository.SaveAsync();
         }
     }
 }

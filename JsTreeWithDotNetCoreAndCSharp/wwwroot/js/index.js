@@ -42,70 +42,109 @@
         .on('delete_node.jstree', function (e, data) {
             console.log('delete_node.jstree', e, data);
             var { node } = data;
-            fetch({
+            $.ajax({
                 url: `api/tree/${node.id}`,
-                method: 'delete'
-            })
-                .then((r) => { })
-                .catch((err) => {
+                type: 'DELETE',
+                contentType: 'application/json',
+                success: function (response) {
+                    console.log('create response: ', response)
+                },
+                error: function (xhr, status, error) {
                     data.instance.refresh();
-                });
+                }
+            });
+
         })
         .on('create_node.jstree', function (e, data) {
             console.log('create_node.jstree', e, data);
             var { node } = data;
             var parentId = node.parent;
-            fetch({
-                url: `api/tree/create`,
-                method: 'post',
-                body: `{"name": "${node.text}", "parentId": "${parentId}"}`
-            })
-                .then((r) => { })
-                .catch((err) => {
-                    data.instance.refresh();
-                });
+                
         })
         .on('rename_node.jstree', function (e, data) {
             console.log('rename_node.jstree', e, data);
             var { old, text, node } = data;
             var parentId = node.parent;
-            fetch({
-                url: `api/tree/rename`,
-                method: 'post',
-                body: `{"id": "${node.id}", "newName": "${text}"}`
-            })
-                .then((r) => { })
-                .catch((err) => {
-                    data.instance.refresh();
+
+            if (old === 'New node') {
+                const postData = {
+                    name: node.text,
+                    parentId
+                };
+
+                $.ajax({
+                    url: 'api/tree/create',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(postData),
+                    success: function (response) {
+                        console.log('create response: ', response)
+                    },
+                    error: function (xhr, status, error) {
+                        data.instance.refresh();
+                    }
                 });
+                return;
+            } 
+
+            const postData = {
+                id: node.id,
+                newName: text
+            };
+
+            $.ajax({
+                url: 'api/tree/rename',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(postData),
+                success: function (response) {
+                },
+                error: function (xhr, status, error) {
+                    data.instance.refresh();
+                }
+            });
         })
         .on('move_node.jstree', function (e, data) {
             console.log('move_node.jstree', e, data);
             var { old, node } = data;
             var parentId = node.parent;
-            fetch({
-                url: `api/tree/move`,
-                method: 'post',
-                body: `{"id": "${node.id}", "newParentId": "${parentId}"}`
-            })
-                .then((r) => { })
-                .catch((err) => {
+            const postData = {
+                id: node.id,
+                newParentId: parentId
+            };
+
+            $.ajax({
+                url: 'api/tree/move',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(postData),
+                success: function (response) {
+                },
+                error: function (xhr, status, error) {
                     data.instance.refresh();
-                });
+                }
+            });
         })
         .on('copy_node.jstree', function (e, data) {
             console.log('copy_node.jstree', e, data);
             var { old, original, node } = data;
             var parentId = node.parent;
-            fetch({
-                url: `api/tree/copy`,
-                method: 'post',
-                body: `{"id": "${original.id}", "parentId": "${parentId}"}`
-            })
-                .then((r) => { })
-                .catch((err) => {
+            const postData = {
+                id: original.id,
+                parentId
+            };
+
+            $.ajax({
+                url: 'api/tree/copy',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(postData),
+                success: function (response) {
+                },
+                error: function (xhr, status, error) {
                     data.instance.refresh();
-                });
+                }
+            });
         })
         .on('changed.jstree', function (e, data) {
             console.log('changed.jstree', e, data);

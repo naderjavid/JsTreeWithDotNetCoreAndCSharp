@@ -6,8 +6,8 @@ using Microsoft.VisualBasic;
 
 namespace JsTreeWithDotNetCoreAndCSharp.Application.APIs
 {
-    [ApiController]
     [Route("api/[controller]")]
+    [ApiController]
     public class TreeController : ControllerBase
     {
         private readonly ITreeApplicationService _treeNodeApp;
@@ -47,9 +47,9 @@ namespace JsTreeWithDotNetCoreAndCSharp.Application.APIs
 
         [HttpPost]
         [Route("create")]
-        public async Task CreateAsync(CreateUpdateTreeNodeDto input)
+        public async Task<TreeNodeDto> CreateAsync(CreateUpdateTreeNodeDto input)
         {
-            await _treeNodeApp.CreateAsync(input);
+            return await _treeNodeApp.CreateAsync(input);
         }
 
         [HttpPost]

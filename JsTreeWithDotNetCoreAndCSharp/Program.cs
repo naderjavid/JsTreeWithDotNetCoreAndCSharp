@@ -1,3 +1,4 @@
+using JsTreeWithDotNetCoreAndCSharp.Application;
 using JsTreeWithDotNetCoreAndCSharp.Domain;
 using JsTreeWithDotNetCoreAndCSharp.Infrastructure;
 using JsTreeWithDotNetCoreAndCSharp.Infrastructure.Repositories;
@@ -18,7 +19,13 @@ builder.Services.AddDbContext<TreeDB>(opt =>
         );
 });
 builder.Services.AddTransient<ITreeRepository, TreeRepository>();
+builder.Services.AddTransient<ITreeApplicationService, TreeApplicationService>();
 builder.Services.AddTransient<TreeManager>();
+
+builder.Services.AddControllers();
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 // Configure the HTTP request pipeline.
@@ -29,12 +36,23 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseHttpsRedirection();
+
 app.UseAuthorization();
+
+app.MapControllers();
 
 app.MapRazorPages();
 
