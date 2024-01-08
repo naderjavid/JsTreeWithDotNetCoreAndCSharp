@@ -94,7 +94,7 @@
 
             $.ajax({
                 url: 'api/tree/rename',
-                type: 'POST',
+                type: 'PUT',
                 contentType: 'application/json',
                 data: JSON.stringify(postData),
                 success: function (response) {

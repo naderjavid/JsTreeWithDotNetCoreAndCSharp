@@ -66,7 +66,7 @@ namespace JsTreeWithDotNetCoreAndCSharp.Application.APIs
             await _treeNodeApp.MoveAsync(input);
         }
 
-        [HttpPost]
+        [HttpPut]
         [Route("rename")]
         public async Task RenameAsync(TreeNodeRenameInputDto input)
         {
