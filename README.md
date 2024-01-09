@@ -47,10 +47,6 @@ The project follows a Domain-Driven Design (DDD) architecture, with the followin
 
 The database connection string can be configured in the appsettings.json file.
 
-## License
-
-This project is licensed under the [License Name] - see the [LICENSE.md](LICENSE.md) file for details.
-
 ## Contributing
 
 Contributions are welcome! Please submit a pull request or open an issue to contribute to this project.
